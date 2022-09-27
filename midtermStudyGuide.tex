@@ -1,0 +1,193 @@
+\documentclass[12pt]{article}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{hyperref}
+\usepackage{bbm}
+%\usepackage{stix}
+\usepackage{nicefrac}
+\usepackage{xfrac}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\DeclareMathOperator*{\E}{\mathbb{E}}
+%\DeclareMathOperator*{\P}{\mathbb{P}}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\NewDocumentCommand{\ceil}{s O{} m}{%
+  \IfBooleanTF{#1} % starred
+    {\left\lceil#3\right\rceil} % \ceil*[..]{..}
+    {#2\lceil#3#2\rceil} % \ceil[..]{..}
+}
+
+\title{Midterm Study Guide}
+
+\begin{document}
+\maketitle
+
+\section{Foundations of Learning}
+\begin{enumerate}
+
+\item Understanding Machine Learning p.20, Ex.2.1. \\
+\textbf{Overfitting of polynomial matching:} We have shown that the predictor defined 
+in Equation (2.3) leads to overfitting. While this predictor seems to be 
+very unnatural, the goal of this exercise is to show that it can be described as a thresholded 
+polynomial. That is, show that given a training set 
+$S ={ (x_{i} , f (x_{i}))}_{i=1}^{m} ({\rm I\!R} ^{d} \times {0, 1})^{m}$,
+ there exists a polynomial $p_{S}$ such that 
+$h_{S}(x) = 1$ if and only if $p_{S}(x) \geq 0$, where $h_{S}$ is as defined in Equation (2.3). 
+It follows that learning the class of all thresholded polynomials using the \textproc{ERM}
+ rule may lead to overfitting.\\
+
+\item Understanding Machine Learning p.20, Ex.2.2.\\
+For a fixed classifier $h$ in the class of binary
+classifier ${\cal H}$ that operate on domain generated
+${\cal X}$ generated according to an unknown distribution
+${\cal D}$ and labeled by $f$, show that the expected value
+of $L_{s}(h)$ over the choice of training sequences $S\mid_x$
+equals to $L_{({\cal D}, f)}(h)$, specifically:
+
+\[ \E_{S\mid_x \sim {{\cal{D}}^{m}}} [L_{s}(h)] = L_{({\cal D}, f)}(h)\]
+
+
+\item Understanding Machine Learning, p.22, Ex. 2.3.\\
+\textbf{Axis aligned rectangles:} An axis aligned rectangle classifier 
+in the plane is a classifier that assigns the value 1 to a point if 
+and only if it is inside a certain rectangle. 
+Formally, given real numbers $a_{1} \leq b_{1},a_{2} \leq b_{2}$, 
+define the classifier $h(a_{1},b_{1},a_{2},b_{2})$ by
+
+\[ h(a_{1},b_{1},a_{2},b_{2})(x_{1},x_{2}) = 
+\begin{cases}
+1 \text{ if } a_{1} \leq x_{1} \leq b_{1}\text{ and }a_{2} \leq x_{2} \leq b_{2} \\
+0 \text{ otherwise}
+\end{cases}\]
+The class of all axis aligned rectangles in the plane is defined as
+$H^{2}_{rec} = {h(a_{1},b_{1},a_{2},b_{2}) : a_{1} \leq b_{1},\text{ and }a_{2} \leq b_{2}}$.
+Note that this is an infinite size hypothesis class. 
+Throughout this exercise we rely on the realizability assumption.
+	\begin{enumerate}
+		\item Let $A$ be the algorithm that returns the smallest rectangle enclosing 
+		all positive examples in the training set. Show that $A$ is an \textproc{ERM}.
+		\item Show that if A receives a training set of size $\leq 4\log{\frac{4}{\delta}}$ then, 
+		with probability of $\epsilon$ at least $1 - \delta$ it returns a hypothesis 
+		with error of at most $\epsilon$.\\
+
+		Hint: Fix some distribution ${\cal D}$ over ${\cal X}$, let 
+		$R^{\star} = R(a_{1}^{\star},b_{1}^{\star},a_{2}^{\star},b_{2}^{\star})$ be the 
+		rectangle that generates the labels, and let $f$ be the corresponding hypothesis. 
+		Let $a_{1} \leq a_{1}^{\star}$ be a number such that the probability mass 
+		(with respect to ${\cal D}$) of the rectangle 
+		$R1 = R(a_{1}^{\star},b_{1}^{\star},a_{2}^{\star},b_{2}^{\star})$ is exactly $\frac{\epsilon}{4}$. 
+		Similarly, let $b_{1},a_{2},b_{2}$ be numbers such that the probability masses 
+		of the rectangles $R2 = R(b_{1},b_{1}^{\star},a_{2}^{\star},b_{2}^{\star}),$
+		$R3 = R(a_{1}^{\star},b_{1}^{\star},a_{2}^{\star},a_{2}),$
+		$R4 = R(a_{1}^{\star},b_{1}^{\star},b_{2},b_{2}^{\star})$
+		are all exactly $\frac{\epsilon}{4}$. Let $R(S)$ be the rectangle returned by $A$. 
+		See illustration in Figure 2.2.
+		
+		\begin{itemize}
+			\item Show that $R(S) \subseteq R^{\star}$.
+
+			\item Show that if $S$ contains (positive) examples in all of the rectangles
+			$R1, R2, R3, R4$, then the hypothesis returned by $A$ has error of at most $\epsilon$.
+
+			\item For each $i \in {1,\hdots, 4}$, upper bound the probability that $S$ does not 
+			contain an example from $R_{i}$ .
+
+			\item Use the union bound to conclude the argument.
+		\end{itemize}	
+		
+		\item Repeat the previous question for the class of axis aligned rectangles in .
+	
+		\item Show that the runtime of applying the algorithm $A$ 
+		mentioned earlier is polynomial in $d$,$\frac{1}{\epsilon}$, and in $\log{\frac{1}{\delta}}$.
+
+\end{enumerate}
+\end{enumerate} %End Foundations of Learning Section
+
+
+
+
+\section{PAC Learnability}
+\begin{enumerate}
+	\item Understanding Machine Learning p.28, Ex.3.1\\
+	\textbf{Monotonicity of Sample Complexity:}
+	
+	\item Understanding Machine Learning p.29, Ex.3.2\\
+	\item Understanding Machine Learning p.29, Ex.3.3\\
+	\item Understanding Machine Learning p.29, Ex.3.4\\
+	\item Understanding Machine Learning p.29, Ex.3.5\\
+	\item Understanding Machine Learning p.30, Ex.3.6\\
+	\item Understanding Machine Learning p.30, Ex.3.7\\
+	\textbf{(*)The Bayes optimal predictor:}
+	\item Understanding Machine Learning p.30, Ex.3.8\\
+	\item Understanding Machine Learning p.30, Ex.3.9\\
+\end{enumerate}
+
+
+
+\section{Linear Algebra}
+\begin{enumerate}
+	\item Linear Algebra with Applications, pp.192-194\\
+	Let $L(\mathbf{x})=(2x_{1},x_{1}+x_{2})^{T}$ be a linear transformation 
+	in ${\rm I\!R}^{2} \rightarrow {\rm I\!R}^{2}$, 
+	$\mathbf{u_{1}} = \left[ 1,1 \right]^{T}$ and 
+	$\mathbf{u_{2}} = \left[ -1,1\right]^{T}$. 
+	\begin{enumerate}
+		\item Find the matrix representation, $A$, of $L$ with respect to 
+		the standard basis in ${\rm I\!R}^{2}$.
+		\item Compute $L(\mathbf{u_{1}})$ and $L(\mathbf{u_{2}})$ 
+		using $A$.
+		\item Find the transition matrix, $U$, from the basis  
+		$\{\mathbf{u_{1}}, \mathbf{u_{2}}\}$ to the standard basis.
+		\item Find the transition matrix from the standard basis to basis 
+		$\{\mathbf{u_{1}}, \mathbf{u_{2}}\}$.
+		\item Find the coordinates of $L(\mathbf{u_{1}})$ and $L(\mathbf{u_{2}})$ 
+		in the basis $\{\mathbf{u_{1}}, \mathbf{u_{2}}\}$.
+		\item Express $L(\mathbf{u_{1}})$ and $L(\mathbf{u_{2}})$ in the basis 
+		$\{\mathbf{u_{1}}, \mathbf{u_{2}}\}$ as linear combinations of 
+		$\mathbf{u_{1}}$ and $\mathbf{u_{2}}$.
+		\item Give the matrix representation, $B$, of $L$ with respect 
+		to the basis $\{\mathbf{u_{1}},\mathbf{u_{2}}\}$.
+		\item Write $B$ using the expression in part e. Use this to formulate 
+		the similarity equation between matrices $A$ and $B$.
+	\end{enumerate}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\section{Optimization Theory}
+\section{Linear Learning Models}
+\section{Principal Component Analysis}
+\section{Curse of Dimensionality}
+\section{Bayesian Decision Theory}
+\section{Parameter Estimation: MLE}
+\section{Parameter Estimation: MAP \& Naive Bayes}
+\section{Logistic Regression}
+\section{Kernel Density Estimation}
+\section{Support Vector Machines}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
